@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 lte8 lte7 lte6"> <![endif]-->
+<!--[if IE 7 ]>		 <html class="ie ie7 lte8 lte7"> <![endif]-->
+<!--[if IE 8 ]>		 <html class="ie ie8 lte8"> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+
+<head>
+	<title>SimpleVideo</title>
+	
+	<meta charset="utf-8">
+	
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+
+	
+</head>
+
+
+<body>
+
+	<video width="853" height="480" poster="poster.png" id="test">
+		<source src="trailer_480p.mov" type="video/mp4">
+	</video>
+	<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1");
+	</script>
+	<script src="jquery.simplevideo.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			
+			$('video').simpleVideo();
+			
+		});
+	</script>
+
+
+</body>
+
+</html>

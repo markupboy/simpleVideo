@@ -1,0 +1,27 @@
+body {
+	background: #ccc;
+	padding: 50px;
+}
+
+.simple-video-wrapper {
+	box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+	-webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+	height: 480px;
+	margin: 0 auto;
+	position: relative;
+	width: 853px;
+	
+}
+
+.simple-video-overlay {
+	background: rgba(0,0,0,0.4) url(button.png) 50% 50% no-repeat;
+	cursor: pointer;
+	display: block;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 2;
+}
