@@ -20,60 +20,72 @@
 	$.fn.simpleVideo = function(options) {
 		var opts = $.extend({}, $.fn.simpleVideo.defaults, options);
 		return this.each(function() {
-
 			var video = this,
 				o = $.meta ? $.extend({}, opts, $video.data()) : opts,
 				$video = $(this),
-				$overlay = $(o.overlay),
-				$wrapper = $(o.wrapper),
+
 				elements = {
-					overlay: $overlay,
+					overlay: $(o.overlay),
 					video: $video,
-					wrapper: $wrapper
+					wrapper: $(o.wrapper)
 				},
 				playing = false,
 				playCheck = null;
 				
 			function init() {
-				$video.wrap($wrapper).before($overlay);
-				$video.bind({
-					click: function() {
-						$video.trigger("pause");
-					},
-					pause: function() {
-						pause();
-					},
-					play: function() {
-						play();
-					},
-					toggle: function() {
-						if(isPlaying()) {
+				if(video.play && typeof(video.play) === "function") {
+					$video.wrap(elements.wrapper).before(elements.overlay);
+					$video.bind({
+						click: function() {
+							$video.trigger("toggle");
+						},
+						pause: function() {
 							pause();
-						} else {
+						},
+						play: function() {
 							play();
+						},
+						stop: function() {
+							stop();
+						},
+						toggle: function() {
+							if(isPlaying()) {
+								pause();
+							} else {
+								play();
+							}
 						}
-					}
-				});
-				$overlay.bind({
-					click: function() {
-						$video.trigger("play");
-					}
-				});
+					});
+					elements.overlay.bind({
+						click: function() {
+							$video.trigger("toggle");
+						}
+					});
+				} else {
+					if(o.isNotSupported && typeof(o.isNotSupported) === "function")
+						o.isNotSupported();
+				}
 			};
 			
 			function play() {
 				video.play();
-				playing = true;
 				pingVideo();
-				o.onPlay(elements);
+				if(o.onPlay && typeof(o.onPlay) === "function")
+					o.onPlay(elements);
 			};
 			
 			function pause() {
 				video.pause();
-				playing = false;
 				endPing();
-				o.onPause(elements);
+				if(o.onPause && typeof(o.onPause) === "function")
+					o.onPause(elements);
 			};
+			
+			function stop() {
+				video.pause();
+				if(o.onStop && typeof(o.onStop) === "function")
+					o.onStop(elements);
+			}
 			
 			function isPlaying() {
 				if(video.paused || video.ended) {
@@ -83,16 +95,17 @@
 			};
 			
 			function pingVideo() {
+				playing = true;
 				playCheck = setInterval(function() {
 					if(isPlaying()) {
 						return;
 					}
-					playing = false;
 					endPing();
 				}, 1000);
 			};
 			
 			function endPing() {
+				playing = false;
 				clearInterval(playCheck);
 				o.onStop(elements);
 			};
@@ -102,6 +115,7 @@
 	};
 
 	$.fn.simpleVideo.defaults = {
+		isNotSupported: function() {},
 		onPause: function(elements) {
 			elements.overlay.fadeIn();
 		},
