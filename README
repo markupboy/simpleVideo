@@ -4,32 +4,29 @@ I checked out a few publically available packages like VideoJS and Kaltura’s H
 
 In order to have something that was lightweight and easily portable between projects in the future, I put together SimpleVideo - a tiny little (100 line) jQuery plugin that wraps some much needed event control around the HTML5 video object.
 
-Check out the plugin source
-
 The plugin depends on a standard video element (or multiple videos, if need be) in page like:
 
-<video width="853" height="480" poster="poster.png" id="test-video">
-<source src="homepage-walkthrough.mov" type="video/mp4"> </video>
+	<video width="853" height="480" poster="poster.png" id="test-video">
+	<source src="homepage-walkthrough.mov" type="video/mp4"> </video>
 
 and then is instantiated any time after the document ready event by passing the jquery object of the video to the simpleVideo function like:
 
-$('#test-video').simpleVideo();
+	$('#test-video').simpleVideo();
 
 This wraps the video in a div classed “simple-video-wrapper” and injects an overlay span classed “simple-video-overlay” into the wrapper. The markup for both of these elements are completely configurable through the defaults object.
 
 SimpleVideo adds support for a number of events that can be triggered to control the video - “play” to start the video, “pause” to halt it, and “toggle” to simply toggle between states. These can be triggered using jQuery’s trigger method:
 
-// play the video
-$('#test-video').trigger('play');
+	// play the video
+	$('#test-video').trigger('play');
 
-// pause the video
-$('#test-video').trigger('play');
+	// pause the video
+	$('#test-video').trigger('play');
 
-// toggle the video state
-$('#test-video').trigger('toggle');
+	// toggle the video state
+	$('#test-video').trigger('toggle');
 
 These are the very events that the play overlay taps into. When clicked, by default, the play overlay fades out and the video starts playing. In turn, when the video is clicked it pauses and the play overlay fades back in. And finally, when the video ends the overlay is triggered on its own and fades in.
 
 You can associate even more functionality with the video by binding your own events which will be triggered when the video plays and pauses - things like click tracking and analytics can be added without modifying the original plugin source. If a browser happens to not support HTML5 video, the plugin will detect this state and trigger the function "isNotSupported" set in the options.
 
-So that’s it. Check out a simple demo and download the plugin. Let me know if you run into any bugs or have any feature requests.
