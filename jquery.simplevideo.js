@@ -19,6 +19,7 @@
 
 	$.fn.simpleVideo = function(options) {
 		var opts = $.extend({}, $.fn.simpleVideo.defaults, options);
+
 		return this.each(function() {
 			var video = this,
 				o = $.meta ? $.extend({}, opts, $video.data()) : opts,
@@ -33,7 +34,13 @@
 				playCheck = null;
 				
 			function init() {
-				if(video.play && typeof(video.play) === "function") {
+				var agent = navigator.userAgent.toLowerCase(), 
+					is_ios = agent.indexOf('iphone') !== -1 || agent.indexOf('ipad') !== -1;
+				if(is_ios) {
+					video.controls = true;
+				}	
+				
+				if(video.play && typeof(video.play) === "function" && !is_ios) {
 					$video.wrap(elements.wrapper).before(elements.overlay);
 					$video.bind({
 						click: function() {
