@@ -90,6 +90,7 @@
 			
 			function stop() {
 				video.pause();
+				video.currentTime = 0;
 				if(o.onStop && typeof(o.onStop) === "function")
 					o.onStop(elements);
 			}
